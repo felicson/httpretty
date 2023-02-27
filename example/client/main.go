@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/henvic/httpretty"
+	"github.com/felicson/httpretty"
 )
 
 func main() {

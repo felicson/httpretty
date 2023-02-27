@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/henvic/httpretty/internal/color"
-	"github.com/henvic/httpretty/internal/header"
+	"github.com/felicson/httpretty/internal/color"
+	"github.com/felicson/httpretty/internal/header"
 )
 
 func newPrinter(l *Logger) printer {
@@ -396,7 +396,7 @@ func (p *printer) printCertificate(hostname string, cert *x509.Certificate) {
 
 func (p *printer) printServerResponse(req *http.Request, rec *responseRecorder) {
 	if p.logger.ResponseHeader {
-		// TODO(henvic): see how httptest.ResponseRecorder adds extra headers due to Content-Type detection
+		// TODO(felicson): see how httptest.ResponseRecorder adds extra headers due to Content-Type detection
 		// and other stuff (Date). It would be interesting to show them here too (either as default or opt-in).
 		p.printResponseHeader(req.Proto, fmt.Sprintf("%d %s", rec.statusCode, http.StatusText(rec.statusCode)), rec.Header())
 	}
@@ -559,7 +559,7 @@ func (p *printer) printRequestBody(req *http.Request) {
 		p.println("* body contains binary data")
 		return
 	}
-	// TODO(henvic): add support for printing multipart/formdata information as body (to responses too).
+	// TODO(felicson): add support for printing multipart/formdata information as body (to responses too).
 	if p.logger.MaxRequestBody > 0 && req.ContentLength > p.logger.MaxRequestBody {
 		p.printf("* body is too long (%d bytes) to print, skipping (longer than %d bytes)\n",
 			req.ContentLength, p.logger.MaxRequestBody)

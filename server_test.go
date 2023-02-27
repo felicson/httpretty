@@ -1001,7 +1001,7 @@ func TestIncomingMultipartForm(t *testing.T) {
 	t.Parallel()
 	logger := &Logger{
 		RequestHeader: true,
-		// TODO(henvic): print request body once support for printing out multipart/formdata body is added.
+		// TODO(felicson): print request body once support for printing out multipart/formdata body is added.
 		ResponseHeader: true,
 		ResponseBody:   true,
 		Formatters: []Formatter{
@@ -1100,7 +1100,7 @@ func TestIncomingMutualTLS(t *testing.T) {
 	logger.SetOutput(&buf)
 	is := inspect(logger.Middleware(helloHandler{}), 1)
 
-	// NOTE(henvic): Using httptest directly turned out complicated.
+	// NOTE(felicson): Using httptest directly turned out complicated.
 	// See https://venilnoronha.io/a-step-by-step-guide-to-mtls-in-go
 	server := &http.Server{
 		TLSConfig: tlsConfig,
@@ -1200,7 +1200,7 @@ func TestIncomingMutualTLSNoSafetyLogging(t *testing.T) {
 	logger.SetOutput(&buf)
 	is := inspect(logger.Middleware(helloHandler{}), 1)
 
-	// NOTE(henvic): Using httptest directly turned out complicated.
+	// NOTE(felicson): Using httptest directly turned out complicated.
 	// See https://venilnoronha.io/a-step-by-step-guide-to-mtls-in-go
 	server := &http.Server{
 		TLSConfig: tlsConfig,

@@ -21,8 +21,9 @@ import (
 // See https://golang.org/issue/30597
 var race bool
 
-//go:embed testdata/petition.golden
 // sample from http://bastiat.org/fr/petition.html
+//
+//go:embed testdata/petition.golden
 var petition string
 
 func TestPrintRequest(t *testing.T) {
@@ -79,7 +80,7 @@ func TestPrintRequestWithColors(t *testing.T) {
 
 func TestEncodingQueryStringParams(t *testing.T) {
 	// Regression test for verifying query string parameters are being encoded correctly when printing with colors.
-	// Issue reported by @mislav in https://github.com/henvic/httpretty/issues/9.
+	// Issue reported by @mislav in https://github.com/felicson/httpretty/issues/9.
 	t.Parallel()
 	qs := url.Values{}
 	qs.Set("a", "b")
@@ -239,7 +240,7 @@ func TestJSONFormatterWriterError(t *testing.T) {
 
 // newTransport creates a new HTTP Transport.
 //
-// BUG(henvic): this function is mostly used at this moment because of a data race condition on the standard library.
+// BUG(felicson): this function is mostly used at this moment because of a data race condition on the standard library.
 // See https://github.com/golang/go/issues/30597 for details.
 func newTransport() *http.Transport {
 	// values copied from Go 1.13.7 http.DefaultTransport variable.

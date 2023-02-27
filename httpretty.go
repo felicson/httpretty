@@ -5,49 +5,51 @@
 // DumpRequest, DumpRequestOut, and DumpResponse heavy debugging functions.
 //
 // You can use the logger quickly to log requests you are opening. For example:
-// 	package main
 //
-// 	import (
-// 		"fmt"
-// 		"net/http"
-// 		"os"
+//	package main
 //
-// 		"github.com/henvic/httpretty"
-// 	)
+//	import (
+//		"fmt"
+//		"net/http"
+//		"os"
 //
-// 	func main() {
-// 		logger := &httpretty.Logger{
-// 			Time:           true,
-// 			TLS:            true,
-// 			RequestHeader:  true,
-// 			RequestBody:    true,
-// 			ResponseHeader: true,
-// 			ResponseBody:   true,
-// 			Colors:         true,
-// 			Formatters:     []httpretty.Formatter{&httpretty.JSONFormatter{}},
-// 		}
+//		"github.com/felicson/httpretty"
+//	)
 //
-// 		http.DefaultClient.Transport = logger.RoundTripper(http.DefaultClient.Transport) // tip: you can use it on any *http.Client
+//	func main() {
+//		logger := &httpretty.Logger{
+//			Time:           true,
+//			TLS:            true,
+//			RequestHeader:  true,
+//			RequestBody:    true,
+//			ResponseHeader: true,
+//			ResponseBody:   true,
+//			Colors:         true,
+//			Formatters:     []httpretty.Formatter{&httpretty.JSONFormatter{}},
+//		}
 //
-// 		if _, err := http.Get("https://www.google.com/"); err != nil {
-// 			fmt.Fprintf(os.Stderr, "%+v\n", err)
-// 			os.Exit(1)
-// 		}
-// 	}
+//		http.DefaultClient.Transport = logger.RoundTripper(http.DefaultClient.Transport) // tip: you can use it on any *http.Client
+//
+//		if _, err := http.Get("https://www.google.com/"); err != nil {
+//			fmt.Fprintf(os.Stderr, "%+v\n", err)
+//			os.Exit(1)
+//		}
+//	}
 //
 // If you pass nil to the logger.RoundTripper it is going to fallback to http.DefaultTransport.
 //
 // You can use the logger quickly to log requests on your server. For example:
-// 	logger := &httpretty.Logger{
-// 		Time:           true,
-// 		TLS:            true,
-// 		RequestHeader:  true,
-// 		RequestBody:    true,
-// 		ResponseHeader: true,
-// 		ResponseBody:   true,
-// 	}
 //
-// 	logger.Middleware(handler)
+//	logger := &httpretty.Logger{
+//		Time:           true,
+//		TLS:            true,
+//		RequestHeader:  true,
+//		RequestBody:    true,
+//		ResponseHeader: true,
+//		ResponseBody:   true,
+//	}
+//
+//	logger.Middleware(handler)
 //
 // Note: server logs don't include response headers set by the server.
 // Client logs don't include request headers set by the HTTP client.
@@ -65,7 +67,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/henvic/httpretty/internal/color"
+	"github.com/felicson/httpretty/internal/color"
 )
 
 // Formatter can be used to format body.
@@ -92,7 +94,7 @@ type Logger struct {
 	Time bool
 
 	// TLS information, such as certificates and ciphers.
-	// BUG(henvic): Currently, the TLS information prints after the response header, although it
+	// BUG(felicson): Currently, the TLS information prints after the response header, although it
 	// should be printed before the request header.
 	TLS bool
 
@@ -262,7 +264,7 @@ func (l *Logger) RoundTripper(rt http.RoundTripper) http.RoundTripper {
 func (r roundTripper) RoundTrip(req *http.Request) (resp *http.Response, err error) {
 	tripper := r.rt
 	if tripper == nil {
-		// BUG(henvic): net/http data race condition when the client
+		// BUG(felicson): net/http data race condition when the client
 		// does concurrent requests using the very same HTTP transport.
 		// See Go standard library issue https://golang.org/issue/30597
 		tripper = http.RoundTripper(http.DefaultTransport)
